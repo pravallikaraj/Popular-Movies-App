@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PopularMoviesStage1</string>
+    <string name="sort">sort by</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="refresh">refresh</string>
+    <string name="Release_date">Release Date</string>
+    <string name="Rating">Rating</string>
+    <string name="Release_date_text">September 16, 2018</string>
+    <string name="Rating_text">7.5/10</string>
+    <string name="movie_overview">movie_overview</string>
+
+</resources>
+

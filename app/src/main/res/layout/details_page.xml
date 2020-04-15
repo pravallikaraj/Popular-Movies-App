@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scroll"
+        android:background="@color/colorLightGreen">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_movie_tiltle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text=""
+            android:textColor="@color/colorAccent"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_movie_poster"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/margin_spacing"
+            app:layout_constraintTop_toBottomOf="@id/tv_movie_tiltle" />
+        <TextView
+            android:id="@+id/release_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_spacing"
+            android:layout_marginTop="@dimen/margin_spacing"
+            app:layout_constraintLeft_toRightOf="@id/iv_movie_poster"
+            app:layout_constraintTop_toBottomOf="@id/tv_movie_tiltle"
+            android:fontFamily="serif-monospace"
+            android:text="@string/Release_date"
+            android:textColor="@color/colorAccent"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_spacing"
+            android:layout_below="@id/release_tv"
+            android:layout_marginTop="@dimen/margin_spacing"
+            app:layout_constraintLeft_toRightOf="@id/iv_movie_poster"
+            app:layout_constraintTop_toBottomOf="@id/release_tv"
+            android:text="@string/Release_date_text"
+            android:textColor="@color/colorBlack"
+            android:textSize="25sp" />
+        <TextView
+            android:id="@+id/rating_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_release_date"
+            android:layout_marginStart="@dimen/margin_spacing"
+            android:layout_marginTop="@dimen/margin_spacing"
+            app:layout_constraintLeft_toRightOf="@id/iv_movie_poster"
+            app:layout_constraintTop_toBottomOf="@id/tv_release_date"
+            android:fontFamily="serif-monospace"
+            android:text="@string/Rating"
+            android:textColor="@color/colorAccent"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rating_tv"
+            android:layout_marginStart="@dimen/margin_spacing"
+            android:layout_marginTop="@dimen/margin_spacing"
+            app:layout_constraintLeft_toRightOf="@id/iv_movie_poster"
+            app:layout_constraintTop_toBottomOf="@id/rating_tv"
+            android:text="@string/Rating_text"
+            android:textColor="@color/colorBlack"
+            android:textSize="25sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/movie_overview"
+            android:id="@+id/tv_overview"
+            android:textSize="20sp"
+            android:layout_marginStart="@dimen/margin_spacing"
+            app:layout_constraintTop_toBottomOf="@id/iv_movie_poster"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/colorBlack"
+            android:layout_below="@id/iv_movie_poster"
+            android:gravity="fill_horizontal"/>
+
+        <TextView
+            android:id="@+id/tv_trailers_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Trailer"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp"
+            android:layout_marginStart="@dimen/margin_spacing"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_overview" />
+
+        <Button
+            android:id="@+id/btn_play_trailer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="play trailer"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/margin_spacing"
+            app:layout_constraintTop_toBottomOf="@id/tv_trailers_label"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_reviews_label"
+            app:layout_constraintTop_toBottomOf="@id/btn_play_trailer"
+            android:layout_marginStart="@dimen/margin_spacing"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Reviews"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviews_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_reviews_label"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/margin_spacing"
+            android:nestedScrollingEnabled="false"
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
