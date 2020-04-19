@@ -55,6 +55,7 @@ public class FavouriteMovies extends AppCompatActivity implements FavouriteMovie
             @Override
             public void onChanged(List<Movie> movies) {
                 Log.e("inside setUpViewModel", "Updating list of movies from LiveData in ViewModel");
+                Log.d("TAG", "MOVIES LIST: " +movies);
                 favouriteMoviesAdapter.setMovies(movies);
             }
         });
@@ -66,6 +67,9 @@ public class FavouriteMovies extends AppCompatActivity implements FavouriteMovie
 
     @Override
     public void onFavMovieClick(int position) {
+        Log.d("MOVIE CLICKED", "POSITION: " + position);
+        Log.d("TEST", "LIST: " + list);
+        Log.d("TEST", "SIZE OF THE LIST: " + list.size());
         Intent intent = new Intent(FavouriteMovies.this, MovieDetailsActivity.class);
         intent.putExtra("Selected_Fav_Movie",list.get(position));
         startActivity(intent);

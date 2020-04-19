@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class MovieDetailsActivity extends AppCompatActivity {
@@ -97,15 +98,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
             if(mMovieId == DEFAULT_MOVIE_ID) {
                 mMovieId = intent.getIntExtra("Selected_Fav_Movie", DEFAULT_MOVIE_ID);
                 MainViewModelFactory factory = new MainViewModelFactory(mDb, mMovieId);
-//                final LiveData<Movie> movie = mDb.favMovieDao().loadFavMovieById(mMovieId);
                 final MovieViewModel viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel.class);
                 viewModel.getMovie().observe(this, new Observer<Movie>() {
                     @Override
                     public void onChanged(Movie movie) {
-                        //viewModel.getMovie().removeObserver(this);
-                        populateUI(movie);
-
-                        //favouriteMoviesAdapter.setMovies((List<Movie>) movie);
+                        viewModel.getMovie().removeObserver(this);
+                        //list = movies;
+                        populateUI();
+                      //  favouriteMoviesAdapter.setMovies(movie);
 
 
                     }
@@ -309,9 +309,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
         String trailerKey[], trailerName[];
         Movie[] movies;
         private final Button playTrailer;
-
         public GetMovieTrailersTask(Button playTrailer) {
             this.playTrailer = playTrailer;
+            this.trailerKey = trailerKey;
         }
 
         private String[] parseMovieTrailersInformationJson(String json) {
@@ -320,7 +320,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
                 JSONObject jsonObject = new JSONObject(json);
                 movies = new Movie[0];
-
+                trailerKey = new String[0];
                 JSONArray movieResultsArray = jsonObject.getJSONArray("results");
                 trailerKey = new String[movieResultsArray.length()];
                 trailerName = new String[movieResultsArray.length()];
@@ -330,6 +330,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 } else {
                     movies = new Movie[movieResultsArray.length()];
                     for (int i = 0; i < movieResultsArray.length(); i++) {
+                       // movies[i] = new Movie();
                         trailerKey[i] = movieResultsArray.getJSONObject(i).getString("key");
                         trailerName[i] = movieResultsArray.getJSONObject(i).getString("name");
 
@@ -348,6 +349,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             String movieId = String.valueOf(movie.getMovie_id());
+            //trailerKey = new String[0];
             try {
                 URL trailersUrl = NetworkUtils.buildMovieTrailersUrl(movieId);
                 Log.d(getClass().getName(), "TRAILERSURL" + trailersUrl);
@@ -367,10 +369,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (s == null) {
+                        playTrailer.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), "Sorry, no trailers here.", Toast.LENGTH_SHORT).show();
                     } else {
-                        //playTrailers(m);
-                        watchYoutubeVideo(getApplicationContext(), s);
+                        if(trailerKey != null) {
+                        watchYoutubeVideo(getApplicationContext(), s); }
 
 
                     }

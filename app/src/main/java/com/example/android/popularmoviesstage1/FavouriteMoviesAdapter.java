@@ -1,6 +1,7 @@
 package com.example.android.popularmoviesstage1;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class FavouriteMoviesAdapter extends RecyclerView.Adapter<FavouriteMovies
     public void onBindViewHolder(@NonNull FavouriteMoviesAdapter.FavouriteMoviesViewHolder holder, int position) {
 
         String moviePosterPath = list.get(position).getPoster_path();
+        Log.d("TAG", "POSITION" +position);
         String poster_path_url = "http://image.tmdb.org/t/p/w342"+moviePosterPath;
        Picasso.get().load(poster_path_url).into(holder.gridItemImageView);
 
@@ -89,6 +91,7 @@ public class FavouriteMoviesAdapter extends RecyclerView.Adapter<FavouriteMovies
     }
     public interface OnFavouriteMovieListener {
         void onFavMovieClick(int position);
+
     }
 
     public void addFavMovies(Movie movie)
