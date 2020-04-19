@@ -128,7 +128,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
         if(intent != null && intent.hasExtra("Selected_Movie"))  {
             movie = intent.getParcelableExtra("Selected_Movie");
-            //movie = intent.getParcelableExtra("Selected_Favourite_Movie");
             String original_title = movie.getOriginal_title();
             String poster_path = movie.getPoster_path();
             String plot_synopsis = movie.getPlot_synopsis();
