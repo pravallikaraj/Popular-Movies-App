@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements MovieInformationA
     private Parcelable mListState;
     private String SORT_BY_OPTION = "saved_sort_order";
     private String selectedOption;
+    private MenuItem menuItem;
     private String LAYOUT_STATE = "saved_layout_state";
 
 
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements MovieInformationA
         initRecyclerView();
 
         mDb = AppDatabase.getInstance(getApplicationContext());
-        //setUpViewModel();
+       // setUpViewModel();
 
 
         if(savedInstanceState != null)
@@ -100,13 +101,14 @@ public class MainActivity extends AppCompatActivity implements MovieInformationA
         }
 
     }
-
+//
 //    private void setUpViewModel() {
 //        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 //        viewModel.getMovieList().observe(this, new Observer<List<Movie>>() {
 //            @Override
 //            public void onChanged(List<Movie> movies) {
 //                Log.e("inside setUpViewModel", "Updating list of movies from LiveData in ViewModel");
+//                favouriteMoviesAdapter.notifyDataSetChanged();
 //                favouriteMoviesAdapter.setMovies(movies);
 //            }
 //        });
@@ -133,11 +135,36 @@ public class MainActivity extends AppCompatActivity implements MovieInformationA
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putString(SORT_BY_OPTION, selectedOption);
         mListState = gridLayoutManager.onSaveInstanceState();
         outState.putParcelable(LAYOUT_STATE, mListState);
-        outState.putString(SORT_BY_OPTION, selectedOption);
+
     }
 
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        //super.onRestoreInstanceState(savedInstanceState);
+        selectedOption = savedInstanceState.getString(SORT_BY_OPTION);
+
+        if(savedInstanceState != null)
+        {
+            mListState = savedInstanceState.getParcelable(LAYOUT_STATE);
+        }
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//
+//
+//        if(mListState != null)
+//        {
+//
+//            gridLayoutManager.onRestoreInstanceState(mListState);
+//        }
+//    }
 
     private void updateMoviesList(String sortBy) {
         // String url=null;
@@ -149,8 +176,12 @@ public class MainActivity extends AppCompatActivity implements MovieInformationA
     @Override
     public void onMovieClick(int position) {
         Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+        //setResult(RESULT_OK, intent);
         intent.putExtra("Selected_Movie",list.get(position));
         startActivity(intent);
+        //onBackPressed();
+
+
     }
 
     @Override
@@ -240,6 +271,24 @@ public class MainActivity extends AppCompatActivity implements MovieInformationA
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sortby,menu);
         //return super.onCreateOptionsMenu(menu);
+//        switch (selectedOption)
+//        {
+//            case R.id.action_popular:
+//                menuItem = menu.findItem(R.id.action_popular);
+//                menuItem.setChecked(true);
+//                break;
+//
+//            case R.id.action_top_rated:
+//                menuItem = menu.findItem(R.id.action_top_rated);
+//                menuItem.setChecked(true);
+//                break;
+//
+//            case R.id.action_favourites:
+//                menuItem = menu.findItem(R.id.action_favourites);
+//                menuItem.setChecked(true);
+//                break;
+//
+//        }
         return true;
     }
 
@@ -253,6 +302,7 @@ public class MainActivity extends AppCompatActivity implements MovieInformationA
         {
             Toast.makeText(MainActivity.this,"Page Refreshed",Toast.LENGTH_SHORT).show();
         }
+
         Log.d("TEST", "Testing onOptionsItemSelected");
         switch (menuItemThatWasSelected)
         {
@@ -269,8 +319,10 @@ public class MainActivity extends AppCompatActivity implements MovieInformationA
                 break;
             case R.id.action_favourites:
                // favouriteMoviesAdapter.setMovies((ArrayList<Movie>) mDb.favMovieDao().loadAllMovies());
+                item.setChecked(true);
                 Intent intent = new Intent(MainActivity.this, FavouriteMovies.class);
                 startActivity(intent);
+               // setUpViewModel();
                 break;
             default:
                 return true;

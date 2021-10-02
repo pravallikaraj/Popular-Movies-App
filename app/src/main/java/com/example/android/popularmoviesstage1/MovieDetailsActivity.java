@@ -1,5 +1,6 @@
 package com.example.android.popularmoviesstage1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 //import android.widget.Toolbar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -60,6 +62,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
    // private Menu menuItem;
 
     public static final String EXTRA_MOVIE_ID = "extraMovieId";
+    public static final String SORT_BY = "topRated";
     private static final int DEFAULT_MOVIE_ID = -1;
     private int mMovieId = DEFAULT_MOVIE_ID;
     private ArrayList<Movie> list = new ArrayList<>();
@@ -87,16 +90,18 @@ public class MovieDetailsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Movie Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        mDb = AppDatabase.getInstance(getApplicationContext());
 
         populateUI();
 
+
+
         invalidateOptionsMenu();
         Intent intent = getIntent();
-        if(intent != null && intent.hasExtra("Selected_Fav_Movie"))
+        if(intent != null && intent.hasExtra("Selected_Movie"))
         {
             if(mMovieId == DEFAULT_MOVIE_ID) {
-                mMovieId = intent.getIntExtra("Selected_Fav_Movie", DEFAULT_MOVIE_ID);
+                mMovieId = intent.getIntExtra("Selected_Movie", DEFAULT_MOVIE_ID);
                 MainViewModelFactory factory = new MainViewModelFactory(mDb, mMovieId);
                 final MovieViewModel viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel.class);
                 viewModel.getMovie().observe(this, new Observer<Movie>() {
@@ -144,7 +149,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             releaseDate.setText(release_date);
             //  reviewRecyclerView.setAdapter(movieReviewsAdapter);
             //movie = intent.getParcelableExtra("movie");
-            mDb = AppDatabase.getInstance(getApplicationContext());
+            //mDb = AppDatabase.getInstance(getApplicationContext());
             playTrailers(movie_id);
             displayReviews(movie_id);
             favouritesIcon();
@@ -174,13 +179,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     Log.d("TAG", "Receiving database update from LiveData");
                     if (movieInFav == null) {
                         invalidateOptionsMenu();
-                        isChecked = false;
+                        isChecked = true;
 
                     } else
                         if ((movie.getMovie_id() == movieInFav.getMovie_id()) && !isChecked) {
                         //menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.star_icon_off));
                             invalidateOptionsMenu();
-                        isChecked = true;
+                        isChecked = false;
 
 
                     } else {
@@ -210,11 +215,39 @@ public class MovieDetailsActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //int id = item.getItemId();
+        if (item.getItemId() == android.R.id.home)
+        {
+           // NavUtils.navigateUpFromSameTask(this);
 
-        if (isChecked) {
+            Toast.makeText(MovieDetailsActivity.this, "Backarrow pressed", Toast.LENGTH_SHORT).show();
+            //onBackPressed();
+            finish();
+
+//            Intent intent = new Intent(MovieDetailsActivity.this, MainActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            //NavUtils.navigateUpFromSameTask(this);
+//            startActivity(intent);
+//            finish();
+
+//
+            return true;
+
+        }
+
+            if (isChecked) {
             isChecked = false;
             item.setIcon(getResources().getDrawable(R.drawable.star_icon_off));
            // onFavouritesClicked();
@@ -235,8 +268,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-
     }
+
+    void closeOnError() {
+        finish();
+        Toast.makeText(this, "Something went wrong!.", Toast.LENGTH_SHORT).show();
+    }
+
+
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -259,16 +298,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
+                //isChecked = true;
                 mDb.favMovieDao().deleteFavMovieById(movie.getMovie_id());
                 Log.d("DELETE", "deleted from favourites");
             }
         });
     }
 
-    void closeOnError() {
-        finish();
-        Toast.makeText(this, "Something went wrong!.", Toast.LENGTH_SHORT).show();
-    }
 
     public void onFavouritesClicked() {
         // ArrayList<MovieInformation> list = new ArrayList<>();

@@ -2,6 +2,7 @@ package com.example.android.popularmoviesstage1;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -57,6 +58,7 @@ public class FavouriteMovies extends AppCompatActivity implements FavouriteMovie
                 Log.e("inside setUpViewModel", "Updating list of movies from LiveData in ViewModel");
                 Log.d("TAG", "MOVIES LIST: " +movies);
                 favouriteMoviesAdapter.setMovies(movies);
+                list = movies;
             }
         });
     }
@@ -71,8 +73,10 @@ public class FavouriteMovies extends AppCompatActivity implements FavouriteMovie
         Log.d("TEST", "LIST: " + list);
         Log.d("TEST", "SIZE OF THE LIST: " + list.size());
         Intent intent = new Intent(FavouriteMovies.this, MovieDetailsActivity.class);
-        intent.putExtra("Selected_Fav_Movie",list.get(position));
+        intent.putExtra("Selected_Movie",list.get(position));
         startActivity(intent);
+        //finish();
+
     }
 
 
