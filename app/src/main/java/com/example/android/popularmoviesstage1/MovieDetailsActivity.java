@@ -59,7 +59,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private FavouriteMoviesAdapter favouriteMoviesAdapter;
     private RecyclerView reviewRecyclerView;
     private MovieReviews movieReviews;
-   // private Menu menuItem;
+
 
     public static final String EXTRA_MOVIE_ID = "extraMovieId";
     public static final String SORT_BY = "topRated";
