@@ -1,5 +1,5 @@
 # Popular-Movies-App
-### Overview
+## Overview
 This project is developed as part of my Android Developer Nanodegree program from Udacity. The App helps users to discover the popular and recent movies.
 The Popular Movies app has the following features
 
@@ -10,5 +10,5 @@ The Popular Movies app has the following features
 5. The movie details page also allows the user to add/delete  it to/from the favourites.
 6. This app uses Room Persistence Library to store the favourite movies information locally, which help the users to view the favourite movies list when they are offline.
 
-### How to run 
+## How to run 
 This movie app uses The Movie Database (TMDb) API. Get your API Key from the TMDP website (https://www.themoviedb.org/) and enter in the place of “enter your API key here” in NetworkUtils.java file.
