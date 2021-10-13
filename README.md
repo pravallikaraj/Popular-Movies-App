@@ -13,9 +13,15 @@ The Popular Movies app has the following features
 ## How to run 
 This movie app uses The Movie Database (TMDb) API. Get your API Key from the TMDP website (https://www.themoviedb.org/) and enter in the place of “enter your API key here” in NetworkUtils.java file.
 
-## Trailer option demo
+## Popular movies option demo
 
 ![](pop_app_trailer_demo3.gif)
+
+## Top-rated movies option demo
+
 ![](pop_app_top_rated_movies.gif)
+
+## Favourite movies option demo
+
 ![](pop_app_fav_movies.gif)
 
