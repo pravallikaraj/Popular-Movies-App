@@ -16,3 +16,4 @@ This movie app uses The Movie Database (TMDb) API. Get your API Key from the TMD
 ## Trailer option demo
 
 ![](pop_app_trailer_demo3.gif)
+![](pop_app_top_rated_movies.gif)
